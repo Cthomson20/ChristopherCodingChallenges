@@ -23,19 +23,13 @@ public class GradeCalculatorController {
     
     @FXML
     private Label courseGradeLabel;
-    
-    @FXML
-    Label projectErrorLabel;
 
     @FXML
-    void calculateGrade(ActionEvent event) { 
+    void calculateGrade(ActionEvent event) {
     	double courseGrade = 0.0;
-    	double projectGrade = Double.parseDouble(projectGradeTextfield.getText());
-    	if (projectGrade < 0 || projectGrade > 100) {
-    		System.out.println("Project grade should be between 0% and 100%. Invalid grade: " + projectGrade);
-    	}
-    	courseGrade = courseGrade + projectGrade * 50/100;
-    	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
+    	String projectGrade = projectGradeTextfield.getText();
+    	courseGrade = Double.parseDouble(projectGrade) * 50/100;
+    	System.out.println("Project grade " + projectGrade + " Course grade so far: " + courseGrade);
     	
     	double quizGrade = quizGradeSlider.getValue();
     	courseGrade = courseGrade + (quizGrade * 100/10) * 0.25;
@@ -48,5 +42,5 @@ public class GradeCalculatorController {
     	
     	courseGradeLabel.setText(String.format("Your course grade is %.2f", courseGrade));
     }
- 
+
 }
