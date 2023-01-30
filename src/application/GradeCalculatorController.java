@@ -27,9 +27,15 @@ public class GradeCalculatorController {
     @FXML
     void calculateGrade(ActionEvent event) {
     	double courseGrade = 0.0;
-    	String projectGrade = projectGradeTextfield.getText();
-    	courseGrade = Double.parseDouble(projectGrade) * 50/100;
-    	System.out.println("Project grade " + projectGrade + " Course grade so far: " + courseGrade);
+    	double projectGrade = Double.parseDouble(projectGradeTextfield.getText());
+    
+    	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
+    	if(projectGrade < 0 || projectGrade > 100) {
+    		System.out.println("Project grade should be between 0% and 100%. Invalid grade " + projectGrade);
+    	}else{
+    		courseGrade = courseGrade + projectGrade * 50/100;
+    	}
+    	System.out.println("Project grade entered: " + projectGrade + " Course grade so far: " + courseGrade);
     	
     	double quizGrade = quizGradeSlider.getValue();
     	courseGrade = courseGrade + (quizGrade * 100/10) * 0.25;
