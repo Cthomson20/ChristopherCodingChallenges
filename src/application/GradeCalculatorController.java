@@ -39,13 +39,20 @@ public class GradeCalculatorController {
     double getProjectGrade(String valueEntered) {
     	//Check that the string entered by the user is a valid decimal number
     	boolean validProjectGrade = true;
+    	int decimalCount = 0;
     	for(char c : valueEntered.toCharArray()) {
     		//check if the character is a digit
-    		if (!Character.isDigit(c) && c != '.'){
+    		if (!Character.isDigit(c)) {
+    			if (c == '.'){
+    				decimalCount++;
+    				if (decimalCount > 1) {
+    					validProjectGrade = false;	
     			validProjectGrade = false;
     			projectErrorLabel.setText("Do not use " + c + " in a project grade. Make sure to enter a number.");
+    			}
     		}
     	}
+    }
     	
     	//convert the string entered by the user to a double if the input is a valid number
     	//Otherwise the project grade will default to zero
