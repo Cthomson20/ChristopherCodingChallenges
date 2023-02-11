@@ -94,6 +94,7 @@ public class GradeCalculatorController {
     */
     double requiredAverageQuizGrade = 0.0;
     
+    
     void calculateRequiredAverageQuizGrade(Scene mainScene,ArrayList<TextField> requiredQuizGradeTextfields) {
     	applicationStage.setScene(mainScene);
     	// make sure to reset to zero
@@ -101,8 +102,8 @@ public class GradeCalculatorController {
     	for (TextField requiredQuizGradeTextfield : requiredQuizGradeTextfields) {
     		requiredAverageQuizGrade += Double.parseDouble(requiredQuizGradeTextfield.getText());
     	}
-    	requiredAverageQuizGrade = requiredAverageQuizGrade / requiredQuizGradeTextfields.size();
-    	mainRequiredQuizGrade.setText(requiredAverageQuizGrade + "/10");
+    	requiredAverageQuizGrade = requiredAverageQuizGrade / 15;
+    	mainRequiredQuizGrade.setText(String.format("%.2f/10", requiredAverageQuizGrade));
     }
     /**
     * The method getRequiredQuizGrades handles the creation of a new scene for the user to enter the required quiz grades.
@@ -160,7 +161,7 @@ public class GradeCalculatorController {
     	for (TextField optionalQuizGradeTextfield : optionalQuizGradeTextfields) {
     		optionalAverageQuizGrade += Double.parseDouble(optionalQuizGradeTextfield.getText());
     	}
-    	optionalAverageQuizGrade = optionalAverageQuizGrade / optionalQuizGradeTextfields.size();
+    	optionalAverageQuizGrade = optionalAverageQuizGrade / 5;
     	mainOptionalQuizGrade.setText(optionalAverageQuizGrade + "/10");
     }
     
@@ -236,10 +237,9 @@ public class GradeCalculatorController {
     	//assuming that quizzes are worth 25% towards the course grade
     	//assuming that quizzes are marked out of 10
     	//assuming the total average quiz grade is the optional average plus the required average divided by 2
+    	double averageQuizGrade = (((optionalAverageQuizGrade * 0.0625 ) + (requiredAverageQuizGrade * 0.1875)) * 100/20);
     	
-    
-    	double averageQuizGrade = ((optionalAverageQuizGrade + requiredAverageQuizGrade));
-    	courseGrade += ((averageQuizGrade) * 100/10) * 0.25;
+    	courseGrade += averageQuizGrade;
     	System.out.println("Quiz Grade entered: " + averageQuizGrade + " Course grade so far: " + courseGrade);
     	
     	
