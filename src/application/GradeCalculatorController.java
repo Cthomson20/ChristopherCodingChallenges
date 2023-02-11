@@ -237,10 +237,8 @@ public class GradeCalculatorController {
     	//assuming that quizzes are worth 25% towards the course grade
     	//assuming that quizzes are marked out of 10
     	//assuming the total average quiz grade is the optional average plus the required average divided by 2
-    	double averageQuizGrade = (((optionalAverageQuizGrade * 0.0625 ) + (requiredAverageQuizGrade * 0.1875)) * 100/20);
-    	
-    	courseGrade += averageQuizGrade;
-    	System.out.println("Quiz Grade entered: " + averageQuizGrade + " Course grade so far: " + courseGrade);
+    	courseGrade += ((requiredAverageQuizGrade * 0.1875) + (optionalAverageQuizGrade * 0.0625));
+    	System.out.println("Quiz Grade entered: " + ((requiredAverageQuizGrade * 15/20 + optionalAverageQuizGrade * 5/20) *0.25) + " Course grade so far: " + courseGrade);
     	
     	
     	int requiredCodingChallengesPassed = requiredCCChoicebox.getValue();
