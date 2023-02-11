@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.collections.FXCollections?>
 
-<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GradeCalculatorController">
+<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="837.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GradeCalculatorController">
    <children>
       <HBox>
          <children>
@@ -150,6 +150,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
           	</Button>
+            <Label fx:id="mainRequiredQuizGrade" alignment="CENTER" prefHeight="81.0" prefWidth="206.0" text="0.0/10">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
          <VBox.margin>
             <Insets />
@@ -184,6 +189,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
           	</Button>
+            <Label fx:id="mainOptionalQuizGrade" alignment="CENTER" contentDisplay="CENTER" prefHeight="77.0" prefWidth="206.0" text="0.0/10">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
