@@ -7,9 +7,9 @@ public class Flight {
     private Date arrival;
     
     /**
-     * Creates a new Flight object with the given departure and arrival dates.
-     * If either argument (or both) is null, the instance variables are set directly to the arguments.
-     * If neither argument is null, checks that the argument for the departure is before the argument for the arrival.
+     * Creates a new Flight object with the new departure and arrival dates.
+     * If either argument, or both, is null, the instance variables are set directly to the arguments.
+     * If neither argument is null,  it checks that the departure is before the arrival.
      * If the departure is not before the arrival, then the departure and arrival instance variables remain null.
      *
      * @param departure the date of the flight's departure
@@ -24,9 +24,9 @@ public class Flight {
             this.arrival = arrival;
         }
     }
-    
+
     /**
-     * Creates a new Flight object that is a copy of the given Flight object.
+     * Creates a new Flight that is a copy of the given Flight.
      *
      * @param flight the Flight object to copy
      */
@@ -34,12 +34,12 @@ public class Flight {
         this.departure = flight.departure;
         this.arrival = flight.arrival;
     }
-    
+
     /**
      * Calculates the length of the flight in minutes.
      * If either the departure or arrival instance variable is null, returns 0.
      *
-     * @return the length of the flight in minutes, or 0 if either the departure or arrival instance variable is null.
+     * @return the length of the flight in minutes, or 0 if the arrival or departure time is null.
      */
     public long length() {
         if (departure == null || arrival == null) {
@@ -71,6 +71,10 @@ public class Flight {
             this.arrival = arrival;
         }
     }
+
+    // Overriding toString() method to print Flight object details
+    @Override
+    public String toString() {
+        return "Flight [departure=" + departure + ", arrival=" + arrival + "]";
+    }
 }
-
-
