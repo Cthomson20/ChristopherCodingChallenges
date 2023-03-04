@@ -4,6 +4,7 @@ module ChristopherThomsonGradingCalculator1 {
 	requires javafx.base;
 	requires java.desktop;
 	requires javafx.graphics;
+	requires junit;
 	
 	opens application to javafx.graphics, javafx.fxml;
 }
