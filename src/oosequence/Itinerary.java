@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Itinerary {
 	private String name;
-	private ArrayList<Flight> flights;
+	private ArrayList<TripComponent> flights;
 
 	public Itinerary(String n) {
 		name = n;
@@ -16,13 +16,13 @@ public class Itinerary {
  * 
  * @param f adds flight f to the list of flights
  */
-	public void addFlight(Flight f) {
+	public void addFlight(TripComponent f) {
 	    if (flights.size() == 0) {
 	        flights.add(f);
 	        return;
 	    }
 	    for (int i = 0; i < flights.size(); i++) {
-	        Flight current = flights.get(i);
+	        TripComponent current = flights.get(i);
 	        if (f.getArrival().before(current.getDeparture())) {
 	            flights.add(i, f);
 	            removeOverlappingFlights();
@@ -42,15 +42,15 @@ public class Itinerary {
 	        return;
 	    }
 	    for (int i = 1; i < flights.size(); i++) {
-	        Flight previous = flights.get(i - 1);
-	        Flight current = flights.get(i);
+	        TripComponent previous = flights.get(i - 1);
+	        TripComponent current = flights.get(i);
 	        if (current.getDeparture().before(previous.getArrival())) {
 	            flights.remove(current);
 	        }
 	    }
 	}
 
-	public ArrayList<Flight> getFlights() {
+	public ArrayList<TripComponent> getFlights() {
 		return flights;
 	}
 
