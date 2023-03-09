@@ -1,6 +1,7 @@
 package oosequence;
 
 import java.util.Date;
+import java.text.DateFormat;
 
 public class TripComponent {
     private Date start;
@@ -54,7 +55,7 @@ public class TripComponent {
 
     @Override
     public String toString() {
-        return "TripComponent [start=" + start + ", end=" + end + "]";
+        return "TripComponent [departureAirport + start=" + start + ", arrivalAirport + end=" + end + "]";
     }
 
     public TripComponent() {

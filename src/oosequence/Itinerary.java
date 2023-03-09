@@ -6,8 +6,9 @@ public class Itinerary{
     private String name;
     private ArrayList<TripComponent> tripComponents;
 
-    public Itinerary(String aName) {
+    public Itinerary(String aName){
         name = aName;
+        tripComponents = new ArrayList<TripComponent>();
     }
     
     public String getName() {
@@ -30,6 +31,11 @@ public class Itinerary{
         tripComponents.add(f);
         removeOverlappingFlights();
     }
+    
+    public ArrayList<TripComponent> getTripComponents() {
+        return tripComponents;
+    }
+
 
     /**
      * It removes any overlapping flights in the list of flights
@@ -46,10 +52,6 @@ public class Itinerary{
                 tripComponents.remove(current);
             }
         }
-    }
-
-    public ArrayList<TripComponent> getTripComponents() {
-		return tripComponents;
     }
 
     @Override
