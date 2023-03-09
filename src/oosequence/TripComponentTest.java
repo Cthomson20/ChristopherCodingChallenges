@@ -20,21 +20,20 @@ public class TripComponentTest {
 	
 	@Test
 	public void testDefaultConstructor() {
-	    // This test assumes that the constructor can finish within 10 milliseconds of being called.
-	    TripComponent c = new TripComponent();
-	    Date now = new Date();
-	    Date actualStart = c.getStart();
-	    Date actualEnd = c.getEnd();
-	    
-	    Date expectedEnd = new Date(now.getTime() + 3600000);
-	    
-	    // testing that default constructor 'now' is + or - 10 millisecond from time of this verification.
-	    assertTrue("Expected start time to be now.", 
-	            actualStart.getTime() - 10 <= now.getTime() && now.getTime() <= actualStart.getTime() + 10);
-	    assertTrue("Expected end time to be one hour from now.", 
-	            actualEnd.getTime() - 10 <= expectedEnd.getTime() && expectedEnd.getTime() <= actualEnd.getTime() + 10);
+		// This test assumes that the constructor can finish within 10 milliseconds of being called.
+		TripComponent c = new TripComponent();
+		Date now = new Date();
+		Date actualStart = c.getStart();
+		Date actualEnd = c.getEnd();
+		
+		Date expectedend = new Date(now.getTime() + 3600000);
+		
+		// testing that default constructor 'now' is + or - 10 millisecond from time of this verification.
+		assertTrue("Expected start time to be now.", 
+				actualStart.getTime() - 10 <= now.getTime() && now.getTime() <= actualStart.getTime() + 10);
+		assertTrue("Expected end time to be one hour from now.", 
+				actualEnd.getTime() - 10 <= expectedend.getTime() && expectedend.getTime() <= actualEnd.getTime() + 10);
 	}
-
 
 	@Test
 	public void testConstructor_startBeforeend(){
