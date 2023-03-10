@@ -6,24 +6,25 @@ public class Itinerary {
     private String name;
     private ArrayList<TripComponent> tripComponents;
 
-    public Itinerary(String aName) {
-        name = aName;
-        tripComponents = new ArrayList<TripComponent>();
+    public Itinerary(String n) {
+        name = n;
+        tripComponents = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
-
+    /**
+     * This code adds the flights to the list of flights in chronological order
+     * checks to see if any of the flights are overlapping
+     *
+     * @param f adds flight f to the list of flights
+     */
     public void addTripComponent(TripComponent f) {
-        if (tripComponents.isEmpty() || f.getStart().compareTo(tripComponents.get(0).getStart()) < 0) {
-            tripComponents.add(0, f);
-            removeOverlappingFlights();
+        if (tripComponents.size() == 0) {
+            tripComponents.add(f);
             return;
         }
-        for (int i = 1; i < tripComponents.size(); i++) {
+        for (int i = 0; i < tripComponents.size(); i++) {
             TripComponent current = tripComponents.get(i);
-            if (f.getStart().compareTo(current.getEnd()) < 0) {
+            if (f.getEnd().compareTo(current.getStart()) < 0) {
                 tripComponents.add(i, f);
                 removeOverlappingFlights();
                 return;
@@ -33,25 +34,43 @@ public class Itinerary {
         removeOverlappingFlights();
     }
 
-    public ArrayList<TripComponent> getTripComponents() {
-        return tripComponents;
-    }
 
     /**
      * It removes any overlapping flights in the list of flights
-     * the list has to be more than 2 flights to execute
+     * the list has to be more than 1 flight to execute
      */
     private void removeOverlappingFlights() {
         if (tripComponents.size() < 2) {
             return;
         }
-        TripComponent previous = tripComponents.get(0);
-        for (TripComponent current : tripComponents.subList(1, tripComponents.size())) {
+        for (int i = 1; i < tripComponents.size(); i++) {
+            TripComponent previous = tripComponents.get(i - 1);
+            TripComponent current = tripComponents.get(i);
             if (current.getStart().compareTo(previous.getEnd()) < 0) {
                 tripComponents.remove(current);
-            } else {
-                previous = current;
+                i--;
             }
         }
+    }
+
+
+    public ArrayList<TripComponent> getTripComponents() {
+        return tripComponents;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append("\n");
+        for (int i = 0; i < tripComponents.size(); i++) {
+            TripComponent component = tripComponents.get(i);
+            sb.append(i).append("\t")
+                    .append(component.getStart()).append("\t")
+                    .append(component.getEnd()).append("\n");
+        }
+        return sb.toString();
     }
 }

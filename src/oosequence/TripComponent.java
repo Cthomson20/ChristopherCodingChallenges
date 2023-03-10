@@ -2,21 +2,24 @@ package oosequence;
 
 import java.util.Date;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat; 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class TripComponent {
     private Date start;
     private Date end;
-    
-    
+
     public TripComponent(Date start, Date end) {
-    	if (start == null || end == null || start.before(end)) {
-    	    this.start = start;
-    	    this.end = end;
-    	} else {
-    	    this.start = start;
-    	}
+        if (start == null || end == null || start.after(end)) {
+            this.start = null;
+            this.end = null;
+        } else {
+            this.start = new Date(start.getTime());
+            this.end = new Date(end.getTime());
+        }
     }
+
+
     public TripComponent(TripComponent toCopy) {
         if (toCopy == null) {
             this.start = null;
@@ -28,12 +31,13 @@ public class TripComponent {
     }
 
     public String getStart() {
-        if (start == null) {
+    	if (start == null) {
             return "";
         }
         DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         return dateFormat.format(start);
     }
+
 
     public String getEnd() {
         if (end == null) {
@@ -43,19 +47,20 @@ public class TripComponent {
         return dateFormat.format(end);
     }
 
-
     public void setStart(Date start) {
-        if (start == null || (end == null || start.before(end))) {
-            this.start = start;
+        if (end == null || start == null || start.before(end)) {
+            this.start = start != null ? new Date(start.getTime()) : null;
         }
     }
+
 
     public void setEnd(Date end) {
-        if (end == null || (start == null || end.after(start))) {
-            this.end = end;
+        if (end == null || (start == null && end.after(new Date())) || (start != null && end.after(start))) {
+            this.end = end != null ? new Date(end.getTime()) : null;
         }
     }
-    
+
+
     protected long lengthInSeconds() {
         if (start == null || end == null) {
             return 0;
@@ -64,50 +69,45 @@ public class TripComponent {
             return expectedLength / 1000;
         }
     }
-    
+
     public boolean isBefore(TripComponent otherComponent) {
         if (otherComponent == null || otherComponent.getStart() == null) {
             return false;
         }
 
-        Date otherStart = otherComponent.getStart(); 
-        
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        Date otherStart;
+        try {
+            otherStart = dateFormat.parse(otherComponent.getStart());
+        } catch (ParseException e) {
+            return false;
+        }
+
         if (end == null) {
             return true;
         }
 
-        return end.before(otherStart); 
+        return end.before(otherStart);
     }
 
-
     public boolean overlapsWith(TripComponent other) {
-        if (other == null) {
+        if (other == null || start == null || end == null || other.getStart() == null || other.getEnd() == null) {
             return false;
         }
-        
-        Date otherStart = other.start;
-        Date otherEnd = other.end;
-        
-        if (otherStart == null || otherEnd == null) {
+
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        Date otherStart, otherEnd;
+        try {
+            otherStart = dateFormat.parse(other.getStart());
+            otherEnd = dateFormat.parse(other.getEnd());
+        } catch (ParseException e) {
             return false;
         }
-        
-        if ((start == null && end == null) || (start == null && otherEnd.after(end)) || (otherStart.after(end) && end == null)) {
+
+        if (otherEnd.before(start) || otherStart.after(end)) {
             return false;
         }
-        
-        if ((start == null && otherStart.before(end)) || (otherEnd.before(end) && start == null)) {
-            return true;
-        }
-        
-        if (start.before(otherStart) && end.before(otherStart)) {
-            return false;
-        }
-        
-        if (start.after(otherEnd) && end.after(otherEnd)) {
-            return false;
-        }
-        
+
         return true;
     }
 }
