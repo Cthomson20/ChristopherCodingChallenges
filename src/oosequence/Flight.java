@@ -42,14 +42,15 @@ public class Flight extends TripComponent {
             this.arrivalAirport = arrivalAirport;
         }
     }
-   // @Override
-   // public String getStart() {
-       // return getDepartureAirport() + " " + super.getStart();
-   // }
+    
+    @Override
+    public String getStart() {
+        return getDepartureAirport() + " " + super.getStart().toString();
+    }
 
-   // @Override
-   // public String getEnd() {
-     //   return getArrivalAirport() + " " + super.getEnd();
-   // }
+    @Override
+    public String getEnd() {
+        return getArrivalAirport() + " " + super.getEnd().toString();
+    }
 
 }
