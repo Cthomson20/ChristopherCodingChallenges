@@ -2,10 +2,12 @@ package oosequence;
 
 import java.util.Date;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat; 
 
 public class TripComponent {
     private Date start;
     private Date end;
+    
     
     public TripComponent(Date start, Date end) {
     	if (start == null || end == null || start.before(end)) {
@@ -25,21 +27,22 @@ public class TripComponent {
         }
     }
 
-    protected long lengthInSeconds() {
-        if (start == null || end == null) {
-            return 0;
-        } else {
-            long expectedLength = end.getTime() - start.getTime();
-            return expectedLength / 1000;
+    public String getStart() {
+        if (start == null) {
+            return "";
         }
-    }
-    public Date getStart() {
-    	return start;
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        return dateFormat.format(start);
     }
 
-    public Date getEnd() {
-        return end;
+    public String getEnd() {
+        if (end == null) {
+            return "";
+        }
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        return dateFormat.format(end);
     }
+
 
     public void setStart(Date start) {
         if (start == null || (end == null || start.before(end))) {
@@ -52,18 +55,13 @@ public class TripComponent {
             this.end = end;
         }
     }
-
-    @Override
-    public String toString() {
-        return "TripComponent [departureAirport + start=" + start + ", arrivalAirport + end=" + end + "]";
-    }
-
-    public TripComponent() {
-        this.start = new Date();
-        this.end = new Date(start.getTime() + 3600 * 1000);
-        if (start.after(end)) {
-            this.start = new Date();
-            this.end = new Date(start.getTime() + 3600 * 1000);
+    
+    protected long lengthInSeconds() {
+        if (start == null || end == null) {
+            return 0;
+        } else {
+            long expectedLength = end.getTime() - start.getTime();
+            return expectedLength / 1000;
         }
     }
     
@@ -72,12 +70,13 @@ public class TripComponent {
             return false;
         }
 
+        Date otherStart = otherComponent.getStart(); 
+        
         if (end == null) {
             return true;
         }
 
-        start = otherComponent.getStart();
-        return end.before(start);
+        return end.before(otherStart); 
     }
 
 
