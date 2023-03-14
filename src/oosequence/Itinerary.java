@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Itinerary {
 	private String name;
-	private ArrayList<Flight> flights;
+	private ArrayList<Flight> flightList;
 
 	public Itinerary(String n) {
 		name = n;
-		flights = new ArrayList<>();
+		flightList = new ArrayList<>();
 	}
 /**
  * This code adds the flights to the list of flights in chronological order
@@ -17,19 +17,19 @@ public class Itinerary {
  * @param f adds flight f to the list of flights
  */
 	public void addFlight(Flight f) {
-	    if (flights.size() == 0) {
-	        flights.add(f);
+	    if (flightList.size() == 0) {
+	        flightList.add(f);
 	        return;
 	    }
-	    for (int i = 0; i < flights.size(); i++) {
-	        Flight current = flights.get(i);
+	    for (int i = 0; i < flightList.size(); i++) {
+	        Flight current = flightList.get(i);
 	        if (f.getArrival().before(current.getDeparture())) {
-	            flights.add(i, f);
+	            flightList.add(i, f);
 	            removeOverlappingFlights();
 	            return;
 	        }
 	    }
-	    flights.add(f);
+	    flightList.add(f);
 	    removeOverlappingFlights();
 	}
 /** 
@@ -38,20 +38,20 @@ public class Itinerary {
  * 
  */
 	private void removeOverlappingFlights() {
-	    if (flights.size() < 2) {
+	    if (flightList.size() < 2) {
 	        return;
 	    }
-	    for (int i = 1; i < flights.size(); i++) {
-	        Flight previous = flights.get(i - 1);
-	        Flight current = flights.get(i);
+	    for (int i = 1; i < flightList.size(); i++) {
+	        Flight previous = flightList.get(i - 1);
+	        Flight current = flightList.get(i);
 	        if (current.getDeparture().before(previous.getArrival())) {
-	            flights.remove(current);
+	            flightList.remove(current);
 	        }
 	    }
 	}
 
-	public ArrayList<Flight> getFlights() {
-		return flights;
+	public ArrayList<Flight> getFlightList() {
+		return flightList;
 	}
 
 	public String getName() {
@@ -63,13 +63,13 @@ public class Itinerary {
  * @return total layover in minutes
  */
 	public long getTotalLayover() {
-		if (flights.size() < 2) {
+		if (flightList.size() < 2) {
 			return 0;
 		}
 
 		long totalLayover = 0;
-		for (int i = 1; i < flights.size(); i++) {
-			long layover = flights.get(i).getDeparture().getTime() - flights.get(i - 1).getArrival().getTime();
+		for (int i = 1; i < flightList.size(); i++) {
+			long layover = flightList.get(i).getDeparture().getTime() - flightList.get(i - 1).getArrival().getTime();
 			if (layover > 0) {
 				totalLayover += layover / (1000 * 60);
 			}
