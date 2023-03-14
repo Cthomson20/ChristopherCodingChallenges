@@ -18,20 +18,21 @@ public class Itinerary {
  */
 	public void addFlight(Flight f) {
 	    if (flightList.size() == 0) {
-	        flightList.add(f);
+	        flightList.add(new Flight(f.getDeparture(), f.getArrival()));
 	        return;
 	    }
 	    for (int i = 0; i < flightList.size(); i++) {
 	        Flight current = flightList.get(i);
 	        if (f.getArrival().before(current.getDeparture())) {
-	            flightList.add(i, f);
+	            flightList.add(i, new Flight(f.getDeparture(), f.getArrival()));
 	            removeOverlappingFlights();
 	            return;
 	        }
 	    }
-	    flightList.add(f);
+	    flightList.add(new Flight(f.getDeparture(), f.getArrival()));
 	    removeOverlappingFlights();
 	}
+
 /** 
  * It removes any overlapping flights in the list of flights 
  * the list has to be more than 2 flights to execute
