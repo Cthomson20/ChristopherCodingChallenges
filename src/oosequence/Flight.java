@@ -8,7 +8,29 @@ public class Flight {
     
     
     public Flight(Date departure, Date arrival) {
-    	if (departure == null || arrival == null) {
+    	if (departure == null && arrival != null){
+    		this.departure = departure;
+    		this.arrival = new Date(arrival.getTime());
+    	}
+    	else if (arrival == null && departure != null){
+    		this.departure = new Date(departure.getTime());
+    		this.arrival = arrival;
+    	}
+    	else if (departure == null || arrival == null) {
+            this.departure = departure;
+            this.arrival = arrival;
+    	}
+    	else if (departure.before(arrival)) {
+            this.departure = new Date(departure.getTime());
+            this.arrival = new Date(arrival.getTime());
+    	}else {
+    		this.departure = null;
+            this.arrival = null;
+    	}
+    }
+    	
+    	
+    	/*if (departure == null || arrival == null) {
             this.departure = departure;
             this.arrival = arrival;
         } else if (departure.before(arrival)) {
@@ -18,7 +40,7 @@ public class Flight {
             this.departure = null;
             this.arrival = null;
         }
-    }
+    } */
 
     
    
