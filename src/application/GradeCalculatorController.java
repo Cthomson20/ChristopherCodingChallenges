@@ -52,7 +52,7 @@ public class GradeCalculatorController {
     
     Label requiredQuizErrorLabel = new Label();
     
-    void calculateRequiredAverageQuizGrade(Scene mainScene,ArrayList<TextField> requiredQuizGradeTextfields) {
+    void calculateRequiredAverageQuizGrade(Scene mainScene,ArrayList<TextField> requiredQuizGradeTextfields) throws InvalidGradeException {
     	requiredQuizErrorLabel.setText("");
     	
     	//assume that each quiz has equal weight
@@ -63,13 +63,15 @@ public class GradeCalculatorController {
     	boolean errorInRequiredQuizGrade = false;
     	
     	for (TextField requiredQuizGradeTextfield : requiredQuizGradeTextfields) {
-    		Grade requiredQuizGrade = new Grade(0,10,weightPerRequiredQuiz);
-    		String errorMessage = requiredQuizGrade.setValue(requiredQuizGradeTextfield.getText());
-    		if(!errorMessage.equals("")) {
-    			errorInRequiredQuizGrade = true;
-    			requiredQuizErrorLabel.setText(errorMessage);
-    		}
+    		try {
+    		Grade requiredQuizGrade = new Grade(requiredQuizGradeTextfield.getText(),10,weightPerRequiredQuiz);
     		requiredAverageQuizGrade += requiredQuizGrade.getWeightedPercentageGrade();
+    		} catch (InvalidGradeException e) {
+    			errorInRequiredQuizGrade = true;
+    			requiredQuizErrorLabel.setText(e.getMessage());
+    			Grade requiredQuizGrade = new Grade("0", 10, weightPerRequiredQuiz);
+    			requiredAverageQuizGrade += requiredQuizGrade.getWeightedPercentageGrade();
+    		}
     	}
     	if (!errorInRequiredQuizGrade) {
     		mainRequiredQuizGrade.setText(String.format("%.2f/10", requiredAverageQuizGrade/10));
@@ -113,7 +115,14 @@ public class GradeCalculatorController {
     	}
     	
     	Button doneButtonOne = new Button("Done");
-    	doneButtonOne.setOnAction(doneOneEvent -> calculateRequiredAverageQuizGrade(mainScene,requiredQuizGradeTextfields));
+    	doneButtonOne.setOnAction(doneOneEvent -> {
+			try {
+				calculateRequiredAverageQuizGrade(mainScene,requiredQuizGradeTextfields);
+			} catch (InvalidGradeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     	
     	requiredQuizGradeContainer.getChildren().add(doneButtonOne);
     	
@@ -130,7 +139,7 @@ public class GradeCalculatorController {
     
     Label optionalQuizErrorLabel = new Label();
     
-    void calculateAverageOptionalQuizGrade(Scene mainScene, ArrayList<TextField> optionalQuizGradeTextfields) {
+    void calculateAverageOptionalQuizGrade(Scene mainScene, ArrayList<TextField> optionalQuizGradeTextfields) throws InvalidGradeException {
     	requiredQuizErrorLabel.setText("");
     	
     	//assume that each quiz has equal weight
@@ -141,13 +150,15 @@ public class GradeCalculatorController {
     	boolean errorInOptionalQuizGrade = false;
     	
     	for (TextField optionalQuizGradeTextfield : optionalQuizGradeTextfields) {
-    		Grade optionalQuizGrade = new Grade(0,10,weightPerOptionalQuiz);
-    		String errorMessage = optionalQuizGrade.setValue(optionalQuizGradeTextfield.getText());
-    		if(!errorMessage.equals("")) {
+    		try {
+    		Grade optionalQuizGrade = new Grade(optionalQuizGradeTextfield.getText(),10,weightPerOptionalQuiz);
+    		optionalAverageQuizGrade += optionalQuizGrade.getWeightedPercentageGrade();
+    		} catch (InvalidGradeException e){
     			errorInOptionalQuizGrade = true;
-    			requiredQuizErrorLabel.setText(errorMessage);
+    			requiredQuizErrorLabel.setText(e.getMessage());
+    			Grade optionalQuizGrade = new Grade("0",10,weightPerOptionalQuiz);
+    			optionalAverageQuizGrade += optionalQuizGrade.getWeightedPercentageGrade();
     		}
-    		requiredAverageQuizGrade += optionalQuizGrade.getWeightedPercentageGrade();
     	}
     	if (!errorInOptionalQuizGrade) {
     		mainOptionalQuizGrade.setText(String.format("%.2f/10", optionalAverageQuizGrade/10));
@@ -190,7 +201,14 @@ public class GradeCalculatorController {
     	}
     	
     	Button doneButtonTwo = new Button("Done");
-    	doneButtonTwo.setOnAction(doneTwoEvent -> calculateAverageOptionalQuizGrade(mainScene,optionalQuizGradeTextfields));
+    	doneButtonTwo.setOnAction(doneTwoEvent -> {
+			try {
+				calculateAverageOptionalQuizGrade(mainScene,optionalQuizGradeTextfields);
+			} catch (InvalidGradeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     	optionalQuizGradeContainer.getChildren().add(doneButtonTwo);
     
     	Scene optionalQuizGradeScene = new Scene(optionalQuizGradeContainer);
@@ -217,7 +235,7 @@ public class GradeCalculatorController {
     	//Clear all error messages
     	projectErrorLabel.setText("");
     	
-    	Grade projectGrade = new Grade(0,100,.5);
+    	Grade projectGrade = new Grade(projectGradeTextfield.getText(),100,.5);
     	projectErrorLabel.setText(projectGrade.setValue(projectGradeTextfield.getText()));  
     	Grade requiredQuizGrade = new Grade(requiredAverageQuizGrade,10,0.1875);   		
     	Grade optionalQuizGrade = new Grade(optionalAverageQuizGrade,10,0.0625);   	   	
