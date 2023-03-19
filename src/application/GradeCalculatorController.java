@@ -236,7 +236,7 @@ public class GradeCalculatorController {
     	projectErrorLabel.setText("");
     	
     	Grade projectGrade = new Grade(projectGradeTextfield.getText(),100,.5);
-    	projectErrorLabel.setText(projectGrade.setValue(projectGradeTextfield.getText()));  
+    	projectErrorLabel.setText(projectGrade.setValue(projectGradeTextfield.getText()));
     	Grade requiredQuizGrade = new Grade(requiredAverageQuizGrade,10,0.1875);   		
     	Grade optionalQuizGrade = new Grade(optionalAverageQuizGrade,10,0.0625);   	   	
     	Grade codingChallengeGrade = new Grade((requiredCCChoicebox.getValue() + optionalCCChoicebox.getValue()),20,0.25);
