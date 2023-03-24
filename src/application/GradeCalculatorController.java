@@ -119,9 +119,9 @@ public class GradeCalculatorController {
 			try {
 				calculateRequiredAverageQuizGrade(mainScene,requiredQuizGradeTextfields);
 			} catch (InvalidGradeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		});
     	
     	requiredQuizGradeContainer.getChildren().add(doneButtonOne);
@@ -155,7 +155,7 @@ public class GradeCalculatorController {
     		optionalAverageQuizGrade += optionalQuizGrade.getWeightedPercentageGrade();
     		} catch (InvalidGradeException e){
     			errorInOptionalQuizGrade = true;
-    			requiredQuizErrorLabel.setText(e.getMessage());
+    			optionalQuizErrorLabel.setText(e.getMessage());
     			Grade optionalQuizGrade = new Grade("0",10,weightPerOptionalQuiz);
     			optionalAverageQuizGrade += optionalQuizGrade.getWeightedPercentageGrade();
     		}
@@ -216,8 +216,6 @@ public class GradeCalculatorController {
     }
 
     
-
-    
     /**
     * The method calculateGrade calculates the overall course grade based on the grade for the project, quizzes, and coding challenges.
     * The method starts by clearing any error messages in the projectErrorLabel.
@@ -235,10 +233,16 @@ public class GradeCalculatorController {
     	//Clear all error messages
     	projectErrorLabel.setText("");
     	
-    	Grade projectGrade = new Grade(projectGradeTextfield.getText(),100,.5);
-    	projectErrorLabel.setText(projectGrade.setValue(projectGradeTextfield.getText()));
-    	Grade requiredQuizGrade = new Grade(requiredAverageQuizGrade,10,0.1875);   		
-    	Grade optionalQuizGrade = new Grade(optionalAverageQuizGrade,10,0.0625);   	   	
+    	Grade projectGrade = null;
+		try {
+			projectGrade = new Grade(projectGradeTextfield.getText(),100,.5);
+		} catch (InvalidGradeException e) {
+			// TODO Auto-generated catch block
+			projectErrorLabel.setText("Invalid input. Please try again with a valid grade.");
+		}
+    	
+    	Grade requiredQuizGrade = new Grade(requiredAverageQuizGrade,100,0.1875);   		
+    	Grade optionalQuizGrade = new Grade(optionalAverageQuizGrade,100,0.0625);   	   	
     	Grade codingChallengeGrade = new Grade((requiredCCChoicebox.getValue() + optionalCCChoicebox.getValue()),20,0.25);
     	
     	
